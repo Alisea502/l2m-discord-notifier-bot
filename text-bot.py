@@ -74,21 +74,21 @@ async def on_message(message):
             await channel.send(mard_msg + first_msg)
             await channel.send(second_msg)
         else:
-            await channel.send("@here \n Нет отмеченных боссов.")
+            await channel.send("@here \n No hay jefes marcados")
     elif text.lower().startswith('!info'):
         info = ", ".join(text[5:].strip().split(","))
-        await channel.send("Информация установлена!")
+        await channel.send("Conjunto de información!")
     elif text == '!restart':
         bosses.clear()
-        await channel.send(f"Боссы удалены из списка.")
+        await channel.send(f"Los jefes han sido eliminados de la lista")
     elif text == '!export': 
         await channel.send(export_msg())
     elif text == '!export_file': 
         export_all()
-        await channel.send(f"Боссы сохранены в файле.")
+        await channel.send(f"Los jefes se guardan en un archivo.")
     elif text == '!import_file':
         bosses = load_bosses()
-        await channel.send(f"Боссы добавлены в список.")
+        await channel.send(f"Se han añadido jefes a la lista.")
     elif text == '?':
         await all_bosses_short(channel)
     elif text == '?help':
@@ -107,7 +107,7 @@ async def boss_tagged(channel, boss):
     await channel.send(boss.boss_tagged_str())
 
 async def boss_untagged(channel, boss_name):
-    await channel.send(f"Босс **{boss_name}** был исключен из списка.")
+    await channel.send(f"El jefe **{boss_name}** se ha eliminado de la lista.")
 
 async def check_5m_for_text_notification(channel):
     if len(bosses.values()) > 0:
@@ -126,7 +126,7 @@ async def check_5m_for_text_notification(channel):
         
         result_msg = ''
         if len(delete_bosses)>0:
-            deleted_header = "@here\nНеотмеченные боссы:\n"
+            deleted_header = "@here\nJefes sin marcar:\n"
             msg = "\n".join([boss.not_tagged() for boss in delete_bosses])
             result_msg = result_msg + '\n' + deleted_header + msg + '\n'
             for boss in delete_bosses:
@@ -134,7 +134,7 @@ async def check_5m_for_text_notification(channel):
             
 
         if (len(soon_bosses)>0):
-            closed_header = "@here\nБоссы ближайшие 5 минут:\n"
+            closed_header = "@here\nJefes próximos 5 minutos:\n"
             msg = "\n".join([boss.boss_status_str() for boss in soon_bosses])
             result_msg = result_msg + closed_header + msg
 
@@ -147,17 +147,17 @@ async def all_bosses_short(channel):
     await channel.send(msg)
 
 async def command_not_found(channel):
-    header = "**Доступные команды:**"
-    show_all = "**!** (список появления боссов)"
-    reset_all = "**!restart** (удаляет всех боссов)"
-    import_all = "**!import_file** (удаляет всех, и загружает из базы, нужно после перезапуска бота)"
-    boss_names = "**?** (список имен боссов)"
-    add_boss = "**+брека** (добавляет бреку, убили сейчас)"
-    add_boss_with_time = "**+брека 2022-02-03 05:53:00** (добавляет бреку, убили в опр время)"
-    delete_boss = "**-брека** (удаляет из списка опр босса)"
-    help_msg = "**?help** - вызывать эту подсказку"
-    boss_names = "**?** - показать имена боссов"
-    info_msg = "**!info Боссы МАДР: крума3, брека, медуза** (устанавливает доп информацию)" 
+    header = "**Comandos disponibles:**"
+    show_all = "**!** (Lista de generación de jefes)"
+    reset_all = "**!restart** (borra todos los jefes)"
+    import_all = "**!import_file** (elimina a todos y carga desde la base de datos, necesario después de reiniciar el bot)"
+    boss_names = "**?** (lista de nombres de jefes)"
+    add_boss = "**+breka** (agrega breka, asesinado ahora)"
+    add_boss_with_time = "**+breka 2022-02-03 05:53:00** (agrega breka, asesinado en el momento de la operación)"
+    delete_boss =  "**-breka** (elimina al jefe de la lista de ODA)"
+    help_msg = "**?help** - llame a esta ayuda"
+    boss_names = "**?** - mostrar los nombres de los jefes"
+    info_msg = "**!info jefes MADR: krum3, breka, medusas** (establece información adicional)"
     msg = "\n".join([header,show_all,reset_all,import_all,add_boss,add_boss_with_time,delete_boss,help_msg,boss_names,info_msg])
     await channel.send(msg)
 
